@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="nav-top-area" style="margin-bottom: 0px">
+    <div class="child-nav">
+        <a id="hotts-nav-btn" class="hotbtn active icons" href="#">最热</a>
+        <a id="newest-nav-btn" class="newbtn" href="#">最新</a>
+    </div>
+    </div>
+    <div>
+        {% for item in data %}
+            <div class="item">
+                <div class="part1">
+                    <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+                </div>
+                <div class="part2">
+                    {{ item.summary }}
+                </div>
+                <div class="part3">
+                    <a href="#" >赞{{ item.favor_count }}</a>
+                    <a href="#" onclick="Reply(this,{{ item.id }});">评论{{ item.reply_count }}</a>
+                    <span>{{ item.create_date|date:'Y-m-d H:i:s' }}</span>
+                    <a href="#" style="margin-left: 20px">{{ item.user }}</a>
+                </div>
+                <div class="part4 hide" ></div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/common.css"/>
+</head>
+<body>
+    <div class="pg-header">
+        <div class="header-content">
+            <a class="digg-log" href="/index/">Dragon</a>
+            <div class="header-menu">
+                <a class='tab active'href="/index/">全部</a>
+                <a class='tab' href="/index/">1024区</a>
+                <a class='tab' href="/index/">老男孩</a>
+                <a class='tab' href="/index/">IT屌丝</a>
+            </div>
+            <div class="header-search">
+                <form id="searchForm" action="/" method="post" name="searchForm">
+                    <input id="searchtxt" class="search-txt-s" name="words" autocomplete="off" type="text"
+                           style="background-color: rgb(244,244,244);">
+                    <a id="searchBtn" class="i" href="/" name="searchBtn">
+                        <span class="ico"></span>
+                    </a>
+                </form>
+            </div>
+            <div class="action-nav">
+                <a id="reg-link-a" class="login-btn-a" href="/">注册</a>
+                <a id="login-link-a" class="login-btn-a" href="/">登录</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="pg-body">
+            <div class="pg-l">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="pg-r">
+                <div id="chat-area" class="chat-area">
+                    <div class="chat" data-pswp-uid="1">
+                        <div class="chat-box">
+                            <div class="chat-mask">
+                                <div style="display:inline-block;width:30px;height:100%;background:white;"></div>
+                                <div style="display:inline-block;width:30px;height:100%;background:#ededed;"></div>
+                                <div style="position:absolute;width:300px;height:20px;background:white;left:-300px;
+                                top:-21px;"></div>
+                            </div>
+                            <div class="chat-main-box">
+                                <div class="chat-main-header">
+                                    <div class="tab-public active" style="width: 100%;border-top-right-radius: 4px">
+                                        公共聊天
+                                    </div>
+                                </div>
+                                <div class="chat-public-box">
+                                    <div class="chat-public-content"
+                                         style="position: relative; overflow: visible;">
+                                        <div class="chat-pool" >
+                                            <div class="chat_container" id="chatpool">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="chat-sender">
+                                        <!--<div class="funcbar">
+                                            <div class="btn btn-face"></div>
+                                        </div>-->
+                                        <div class="inputer">
+                                            <textarea id="text"></textarea>
+                                            <div style="text-align: right;">
+                                                <div >
+                                                    <input class="btn btn-send" type="button" onclick="sengMsg()"
+                                                           value="发送">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pg-footer">
+            <div class="foot-nav">
+                <div>版权所有：xxxxx有限公司</div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/jquery-3.1.0.min.js"></script>
+    <script>
+        function sengMsg() {
+            var value = $('#text').val();
+            var name = 'alex'
+            var now = '2016-09-14 14:42'
+            var tempalte = "<div><div>" +name+"  --"+now+"</div><div>"+value+"</div></div>"
+            $('#chatpool').append(tempalte)
+        }
+    </script>
+</body>
+</html>
