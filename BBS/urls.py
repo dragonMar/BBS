@@ -20,4 +20,11 @@ from app1 import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', views.index),
+    url(r'^addfavor/', views.addfavor),
+    url(r'^getreply/', views.getreply),
+    url(r'^submitreply/', views.submitreply),
+    url(r'^login/', views.login),
+    url(r'^submitchat/', views.submitchat),
+    url(r'^getchat/', views.getchat),
+    url(r'^getchat2/', views.getchat2),
 ]

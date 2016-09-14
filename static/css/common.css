@@ -185,6 +185,16 @@ border-left: 0;
     height: 369px;
     overflow-y: auto;
 }
+.chat-public-content .chat-pool{
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    max-width: 100%;
+    outline: 0;
+    direction: ltr;
+    max-height: none;
+}
+
 .chat-box .chat-sender{
     height: 85px;
     padding: 0 16px;
@@ -288,4 +298,7 @@ body, button, input, select, td, textarea{
     border-bottom: 1px solid #dce7f4;
     overflow: hidden;
     position: relative;
+}
+.item .hide{
+    display: none;
 }

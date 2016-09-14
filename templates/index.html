@@ -16,13 +16,208 @@
                     {{ item.summary }}
                 </div>
                 <div class="part3">
-                    <a href="#" >赞{{ item.favor_count }}</a>
-                    <a href="#" onclick="Reply(this,{{ item.id }});">评论{{ item.reply_count }}</a>
+                    <a href="#" onclick="Favor(this,{{ item.id }})">赞{{ item.favor_count }}</a>
+                    <a href="#" class="reply" onclick="Reply(this,{{ item.id }});">评论{{ item.reply_count }}</a>
                     <span>{{ item.create_date|date:'Y-m-d H:i:s' }}</span>
                     <a href="#" style="margin-left: 20px">{{ item.user }}</a>
                 </div>
-                <div class="part4 hide" ></div>
+                <div class="part4 hide" >
+                    <div class="replys"></div>
+                    <div class="input">
+                        <label>请输入回复内容</label>
+                        <textarea></textarea>
+                        <input type="button" value="提交" onclick="Submit(this,{{ item.id }})">
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+{% block body_r %}
+    <div id="chat-area" class="chat-area">
+        <div class="chat" data-pswp-uid="1">
+            <div class="chat-box">
+                <div class="chat-mask">
+                    <div style="display:inline-block;width:30px;height:100%;background:white;"></div>
+                    <div style="display:inline-block;width:30px;height:100%;background:#ededed;"></div>
+                    <div style="position:absolute;width:300px;height:20px;background:white;left:-300px;
+                                top:-21px;"></div>
+                </div>
+                <div class="chat-main-box">
+                    <div class="chat-main-header">
+                        <div class="tab-public active" style="width: 100%;border-top-right-radius: 4px">
+                            公共聊天
+                        </div>
+                    </div>
+                    <div class="chat-public-box">
+                        <div class="chat-public-content"
+                                         style="position: relative; overflow: visible;">
+                            <div class="chat-pool" style="height: 1000px">
+                                <div class="chat_container" id="chatpool" style="height:350px;overflow: auto">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-sender">
+                                        <!--<div class="funcbar">
+                                            <div class="btn btn-face"></div>
+                                        </div>-->
+                            <div class="inputer">
+                                <textarea id="text"></textarea>
+                                <div style="text-align: right;">
+                                    <div >
+                                        <input class="btn btn-send" type="button" onclick="SendMsg()"
+                                                           value="发送">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        function Favor(doc, id) {
+            //赞自己加函数
+            $.ajax({
+                url:'/addfavor/',
+                data:{nid:id},
+                type:"POST",
+                success:function (callback) {
+                    var obj = jQuery.parseJSON(callback);
+                    if(obj.status==1){
+                        var temp = '赞' + obj.data;
+                        $(doc).text(temp);
+                    }else {
+                        alert(obj.message);
+                    }
+
+                }
+            })
+
+        }
+
+
+        function Reply(doc, id) {
+            //评论函数
+            tag = $(doc).parent().next();
+            $.ajax({
+                url: '/getreply/',
+                data: {nid:id},
+                type: 'POST',
+                success: function (callback) {
+                    var obj = jQuery.parseJSON(callback);
+                    tag.find('.replys').empty();
+                    $.each(obj, function (k,v) {
+                        temp = "<p>"+v.user__username+": "+v.content+'    '+v.create_date+"</p>";
+                        tag.find('.replys').append(temp);
+                    })
+                }
+            });
+            tag.toggleClass('hide');
+        }
+
+
+        function Submit(doc, id) {
+            var value = $(doc).prev().val();
+            $.ajax({
+                url:'/submitreply/',
+                data:{nid:id, data:value},
+                type: 'POST',
+                success: function (callback) {
+
+                    callback = jQuery.parseJSON(callback);
+                    console.log(callback);
+                    if(callback.status==1){
+                        temp = "<p>"+callback.data.user_username+": "
+                                +callback.data.content+'    '+callback.data.create_date+"</p>";
+                        $(doc).parent().parent().find('.replys').append(temp);
+                        count = '评论'+ callback.data.reply_count;
+                        $(doc).parent().parent().prev().find('.reply').text(count);
+                    }else {
+                        alert('操作失败');
+                    }
+                }
+            })
+        }
+
+
+        function SendMsg() {
+            var value = $('#text').val();
+            $('#text').val('');
+            $.ajax({
+                url: '/submitchat/',
+                data: {data:value},
+                type: 'POST',
+                success: function (callback) {
+                    callback = jQuery.parseJSON(callback);
+                    if(callback.status==1){
+                        var now = callback.data.create_date;
+                        var name = callback.data.username;
+                        var template = "<div><div>"+name+"  --"+now+"</div><div>"+value+"</div></div>";
+                        $('#chatpool').append(template);
+                        window.last_id = callback.data.id;
+                        var height = document.getElementById('chatpool').scrollHeight;
+                        $('#chatpool').scrollTop(height);
+                    }else {
+                        alert(callback.message);
+                    }
+                }
+            })
+        }
+        window.last_id = -1;
+        window.is_first = true;
+        setInterval('going()',2000);
+        function going() {
+            if(window.is_first) {
+                $.ajax({
+                    url: '/getchat/',
+                    type: 'POST',
+                    success: function (callback) {
+                        console.log(callback);
+                        callback = jQuery.parseJSON(callback);
+                        window.last_id = callback[0].id;
+                        callback = callback.reverse();
+                        $.each(callback, function (k, v) {
+                            var now = v.create_date;
+                            var name = v.user__username;
+                            var value = v.content;
+                            var template = "<div><div>" + name + "  --" + now + "</div><div>" + value + "</div></div>";
+                            $('#chatpool').append(template);
+                        });
+                        var height = document.getElementById('chatpool').scrollHeight;
+                        $('#chatpool').scrollTop(height);
+                        window.is_first = false;
+                    }
+                })
+            }else {
+                $.ajax({
+                    url:'/getchat2/',
+                    data:{last_id:window.last_id},
+                    type: 'POST',
+                    success: function (callback) {
+                        callback = jQuery.parseJSON(callback);
+                        var num = callback.length;
+                        console.log(callback);
+                        if(num>0){
+                            window.last_id = callback[num-1].id;
+                            $.each(callback, function (k, v) {
+                                var now = v.create_date;
+                                var name = v.user__username;
+                                var value = v.content;
+                                var template = "<div><div>" + name + "  --" + now + "</div><div>" + value + "</div></div>";
+                                $('#chatpool').append(template);
+                            });
+                            var height = document.getElementById('chatpool').scrollHeight;
+                            $('#chatpool').scrollTop(height);
+                        }
+                    }
+                })
+            }
+
+        }
+
+    </script>
 {% endblock %}
