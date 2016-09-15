@@ -9,6 +9,33 @@ import json
 # Create your views here.
 
 
+def Filter(before_func, after_func):
+    def outer(main_func):
+        def wrapper(request, *args, **kwargs):
+            before_result = before_func(request, *args, **kwargs)
+            if(before_result != None):
+                return before_result
+            main_result = main_func(request, *args, **kwargs)
+            if(main_result != None):
+                return main_result
+            after_result = after_func(request, *args, **kwargs)
+            if(after_result != None):
+                return after_result
+        return wrapper
+    return outer
+
+
+def before(request):
+    data = {'status': 0, 'message':''}
+    if 'current_user_id' not in request.session:
+        data['message'] = '请先登录!'
+        return HttpResponse(json.dumps(data))
+
+
+def after(request):
+    pass
+
+
 def login(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -21,6 +48,7 @@ def login(request):
             request.session['current_user_id'] = currentObj.id
             return redirect('/index/')
         else:
+            data = {'message': '用户名或密码错误！'}
             return render_to_response('login.html')
     return render_to_response('login.html')
 
@@ -62,6 +90,7 @@ def getreply(request):
     return HttpResponse(json.dumps(reply_list,cls=CJsonEncoder))
 
 
+@Filter(before, after)
 def submitreply(request):
     ret = {'status':0, 'data':'', 'message':''}
     try:
@@ -83,6 +112,7 @@ def submitreply(request):
     return HttpResponse(json.dumps(ret))
 
 
+@Filter(before, after)
 def submitchat(request):
     ret = {'status': 0, 'data': '', 'message': ''}
     try:
@@ -115,3 +145,19 @@ def getchat2(request):
     chatObj = list(chatObj)
     chatObj = json.dumps(chatObj, cls=CJsonEncoder)
     return HttpResponse(chatObj)
+
+
+@Filter(before, after)
+def username(request):
+    data = {'status':1, 'user': ''}
+    id = request.session['current_user_id']
+    data['user'] = models.Admin.objects.get(id=id).username
+    return HttpResponse(json.dumps(data))
+
+
+def logout(request):
+    try:
+        del request.session['current_user_id']
+        return HttpResponse(json.dumps(None))
+    except Exception as e:
+        return HttpResponse(json.dumps(e.args))

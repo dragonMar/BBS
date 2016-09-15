@@ -5,7 +5,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="/static/css/common.css"/>
 </head>
-<body>
+<body onload="user();">
     <div class="pg-header">
         <div class="header-content">
             <a class="digg-log" href="/index/">Dragon</a>
@@ -25,8 +25,10 @@
                 </form>
             </div>
             <div class="action-nav">
-                <a id="reg-link-a" class="login-btn-a" href="/">注册</a>
-                <a id="login-link-a" class="login-btn-a" href="/">登录</a>
+                <a id="reg-link-a" class="login-btn-a" href="/regist/">注册</a>
+                <a id="login-link-a" class="login-btn-a" href="/login/">登录</a>
+                <a class="login hide" href="#"></a>
+                <a class="login hide" href="#" onclick="logout();">退出</a>
             </div>
         </div>
     </div>
@@ -47,6 +49,41 @@
         </div>
     </div>
     <script src="/static/js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript">
+        function user() {
+            $.ajax({
+            url: '/username/',
+            type: 'POST',
+            success: function (callback) {
+                callback = jQuery.parseJSON(callback);
+                if(callback.status==1){
+                    $('.login-btn-a').addClass('hide');
+                    $('.login').first().text(callback.user);
+                    $('.login').removeClass('hide');
+                }else{
+
+                }
+            }
+        })
+        }
+        function logout() {
+            $.ajax({
+                url: '/logout/',
+                type: 'POST',
+                success: function (callback) {
+                    callback = jQuery.parseJSON(callback);
+                    console.log(callback);
+                    if(!callback){
+                        $('.login-btn-a').removeClass('hide');
+                        $('.login').first().text('');
+                        $('.login').addClass('hide');
+                    }else {
+                        alert(callback);
+                    }
+                }
+            })
+        }
+    </script>
     {% block js %}{% endblock %}
 </body>
 </html>

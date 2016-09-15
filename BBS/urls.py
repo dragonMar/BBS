@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^submitchat/', views.submitchat),
     url(r'^getchat/', views.getchat),
     url(r'^getchat2/', views.getchat2),
+    url(r'^username/', views.username),
+    url(r'^logout/', views.logout),
 ]

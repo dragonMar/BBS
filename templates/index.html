@@ -58,9 +58,6 @@
                             </div>
                         </div>
                         <div class="chat-sender">
-                                        <!--<div class="funcbar">
-                                            <div class="btn btn-face"></div>
-                                        </div>-->
                             <div class="inputer">
                                 <textarea id="text"></textarea>
                                 <div style="text-align: right;">
@@ -80,7 +77,7 @@
 {% block js %}
     <script type="text/javascript">
         function Favor(doc, id) {
-            //赞自己加函数
+            //赞数自增
             $.ajax({
                 url:'/addfavor/',
                 data:{nid:id},
@@ -101,7 +98,7 @@
 
 
         function Reply(doc, id) {
-            //评论函数
+            //评论显示
             tag = $(doc).parent().next();
             $.ajax({
                 url: '/getreply/',
@@ -116,12 +113,14 @@
                     })
                 }
             });
-            tag.toggleClass('hide');
+            tag.slideToggle('slow');
         }
 
 
         function Submit(doc, id) {
+            //评论提交
             var value = $(doc).prev().val();
+            $(doc).prev().val('');
             $.ajax({
                 url:'/submitreply/',
                 data:{nid:id, data:value},
@@ -137,7 +136,7 @@
                         count = '评论'+ callback.data.reply_count;
                         $(doc).parent().parent().prev().find('.reply').text(count);
                     }else {
-                        alert('操作失败');
+                        alert(callback.message);
                     }
                 }
             })
@@ -145,6 +144,7 @@
 
 
         function SendMsg() {
+            //聊天发送
             var value = $('#text').val();
             $('#text').val('');
             $.ajax({
@@ -171,12 +171,12 @@
         window.is_first = true;
         setInterval('going()',2000);
         function going() {
+            //聊天读取
             if(window.is_first) {
                 $.ajax({
                     url: '/getchat/',
                     type: 'POST',
                     success: function (callback) {
-                        console.log(callback);
                         callback = jQuery.parseJSON(callback);
                         window.last_id = callback[0].id;
                         callback = callback.reverse();
@@ -200,7 +200,6 @@
                     success: function (callback) {
                         callback = jQuery.parseJSON(callback);
                         var num = callback.length;
-                        console.log(callback);
                         if(num>0){
                             window.last_id = callback[num-1].id;
                             $.each(callback, function (k, v) {
