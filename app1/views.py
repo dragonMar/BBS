@@ -54,7 +54,7 @@ def login(request):
 
 
 def index(request):
-    all_data = models.News.objects.all()
+    all_data = models.News.objects.all().order_by('-create_date')
     return render_to_response('index.html',{'data': all_data})
 
 
