@@ -1,0 +1,235 @@
+
+.head{
+    width: 960px;
+    height: 90px;
+    margin: 0 auto;
+}
+.banner{
+    background: #ced7df;
+    min-height: 700px;
+}
+.header{
+    padding: 2em 0em 0 0;
+}
+.top-menu{
+    float: left;
+    margin: 0.8% auto 0;
+    width: 89%;
+    text-align: center;
+}
+.top-menu ul{
+    padding: 0;
+}
+ul{
+    margin: 0;
+}
+.top-menu ul li{
+    display: inline-block;
+    margin: 0 15px;
+    color: #fff;
+    font-weight: 900;
+    vertical-align: top;
+}
+.top-menu ul li a{
+    text-decoration: none;
+    color: #34353a;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 0;
+    margin: 0 auto;
+}
+.top-menu ul li a:hover, .top-menu ul li a.active{
+    color: #fff;
+}
+.cl-effect a{
+    text-shadow: 0 0 1px rgba(111,134,134,0.3);
+}
+nav a{
+    position: relative;
+    display: inline-block;
+    outline: none;
+    letter-spacing: 1px;
+}
+.banner_logo{
+    margin-top: 10em;
+}
+.logo{
+    text-align: center;
+}
+.logo a h1{
+    font-size: 9em;
+    font-weight: 400;
+    color: #34353a;
+    font-family: 'Candal', sans-serif;
+}
+.logo a{
+    text-decoration: none;
+}
+.logo a h1:hover{
+    color:#3c763d;
+}
+.banner_logo p{
+    font-size: 2em;
+    font-weight: 400;
+    color: #5bc0de;
+    line-height: 3em;
+    width: 80%;
+    margin: 1% auto 0;
+    text-align: center;
+}
+.about{
+    background: white;
+    padding: 5em 0;
+}
+h3.tittle{
+    font-size: 2.5em;
+    font-weight: 400;
+    color: #34353a;
+    font-family: 'Candal', sans-serif;
+    text-align: center;
+    margin-bottom: 1em;
+}
+.pic{
+    padding: 0;
+}
+.pic img{
+    width: 100%;
+}
+img{
+    vertical-align: middle;
+    border: 0;
+}
+.text{
+    background-color: #76b852;
+    max-height: 633.333px;
+    padding: 4em;
+}
+.text h4{
+    font-size: 1.7em;
+    line-height: 2.1em;
+    color: #fff;
+    margin: 0;
+}
+.text p{
+    font-size: 1em;
+    line-height: 2em;
+    color: #fff;
+    width: 80%;
+    margin: 4em 0;
+}
+.experience{
+   padding-top: 5em;
+    min-height: 856px;
+    background-color: #F4F4F4;
+}
+span.devide-line{
+    width: 1px;
+    height: 360px;
+    position: absolute;
+    top: 5.4em;
+    display: initial;
+    background: #53bed6;
+    left: 50%;
+}
+.experience-left{
+    top:5em;
+}
+.experience-left, .experience-left-sc, .experience-left-tr{
+    width: 40%;
+    position: absolute;
+    left: 3.55%;
+    text-align: right;
+}
+.experience-main{
+    position: relative;
+    text-align: center;
+}
+.experience-left h4, .experience-left-sc h4, .experience-left-tr h4, .experience-right h4{
+    font-size: 1.4em;
+    color: #53bed6;
+    margin: 0px;
+    text-transform: uppercase;
+}
+.experience-left-sc{
+    top:15em;
+}
+.experience-left-tr{
+    top: 25em;
+}
+.experience-right{
+    top: 15em;
+    width: 40%;
+    position: absolute;
+    left: 56.2%;
+    text-align: left;
+}
+.experience-right p{
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 8px;
+    line-height: 1.8em;
+}
+.my-skills{
+    background: #323b43;
+    padding: 80px 0;
+}
+.my-skills h3{
+    font-family: 'Jockey One', sans-serif;
+    margin: 0;
+    color: #ced7df;
+    font-size: 44px;
+    text-align: center;
+    font-weight: 400;
+}
+.skill-girds{
+    margin-top: 60px;
+}
+.circles-text-wrp{
+    color: #fff;
+    font-weight: 300;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    font-size: 56px;
+    height: 160px;
+    line-height: 160px;
+}
+.skill-gird p{
+    margin: 34px 0 0 0;
+    font-size: 22px;
+    color: #ced7df;
+}
+.contact{
+    background: #76b852;
+    padding: 80px 0 80px 0;
+}
+.point-icon .glyphicon-map-marker, .point-icon .glyphicon-earphone, .point-icon .glyphicon-envelope{
+    z-index: 9999;
+    top: 0;
+    left: 1px;
+    font-size: 37px;
+    color: #323b43;
+}
+.contact-grid p{
+    color: #fff;
+    margin: 18px auto 0 auto;
+    width: 61%;
+    font-size: 14px;
+    line-height: 1.8em;
+}
+#to-top{
+    text-decoration: none;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    overflow: hidden;
+    width: 40px;
+    height: 22px;
+    border: none;
+    text-indent: 100%;
+    background: url(/static/img/move-top.png) no-repeat 0 0;
+}
+

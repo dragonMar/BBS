@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^getchat2/', views.getchat2),
     url(r'^username/', views.username),
     url(r'^logout/', views.logout),
+    url(r'^dragon/', views.dragon),
 ]

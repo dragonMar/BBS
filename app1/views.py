@@ -161,3 +161,7 @@ def logout(request):
         return HttpResponse(json.dumps(None))
     except Exception as e:
         return HttpResponse(json.dumps(e.args))
+
+
+def dragon(request):
+    return render_to_response('dragon.html')
